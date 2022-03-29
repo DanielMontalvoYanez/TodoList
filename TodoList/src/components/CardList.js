@@ -3,14 +3,13 @@ import Card from './Card';
 const CardList = ({ data, eliminar, editData, onChange, currentUser }) => (
   <div>
     {data.map((item) => (
-      <div>
+      <div key={1}>
         <Card
           onChange={onChange}
           editData={editData}
           item={item}
           ListMode={true}
           eliminar={eliminar}
-          key={item.id}
           {...item}
         />
       </div>

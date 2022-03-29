@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import Loading from '../components/Loading';
 import Page500 from './Page500';
 import url from '../Config';
+import { getDatabase, ref, onValue } from 'firebase/database';
 import db from '../FireBaseConfig';
 import buttonImg from '../imagenes/add.png';
 
@@ -26,11 +27,13 @@ const Main = () => {
 
   const ListExercises = async () => {
     try {
-      await db.collection('todos').onSnapshot((snap) => {
-        const data = [];
-        snap.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+      const arr = [];
+      const starCountRef = await ref(db, 'todos');
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        arr.push(data);
         setRecord({
-          data,
+          data: arr,
           loading: false,
         });
       });
@@ -39,15 +42,15 @@ const Main = () => {
         loading: false,
         error,
       });
+      console.log('error:', error);
     }
   };
-  useEffect(()=>{
-      const getList = async () =>{
-        // await this.fetchList()
-        await ListExercises();
-      }
-    //   getList();
-  },[]);
+  useEffect(() => {
+    const getList = async () => {
+      await ListExercises();
+    };
+    getList();
+  }, []);
   // fetchList = async () => {
   //     try {
   //         let res = await fetch(`${url}/exercises`);
@@ -75,7 +78,7 @@ const Main = () => {
     });
   };
   const onDelete = async (id) => {
-    try {
+    /*try {
       await db.collection('todos').doc(id).delete();
       this.setState({
         loading: false,
@@ -85,7 +88,7 @@ const Main = () => {
         loading: false,
         error,
       });
-    }
+    }*/
   };
   const editRow = (data) => {
     this.setState({

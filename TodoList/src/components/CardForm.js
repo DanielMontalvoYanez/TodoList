@@ -1,16 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-const CardForm = ({ onAdd, onChange, editMode, currentUser }) => {
+const CardForm = ({ onAdd, onChange, currentUser }) => {
   const { setValue, register, errors, handleSubmit } = useForm({
     defaultValues: currentUser,
   });
-  // setValue('title',currentUser.title)
-  // setValue('description',currentUser.description)
-  // setValue('img',currentUser.img)
-  // setValue('cure',currentUser.title)
-  // setValue('rightColor',currentUser.rightColor)
-  // setValue('leftColor',currentUser.leftColor)
 
   const onSubmit = (data, e) => {
     onAdd(data, e);
@@ -93,15 +87,9 @@ const CardForm = ({ onAdd, onChange, editMode, currentUser }) => {
           </div>
         </div>
         <br></br>
-        {editMode ? (
-          <button type='submit' className='btn btn-primary float-right'>
-            Actualizar
-          </button>
-        ) : (
-          <button type='submit' className='btn btn-primary float-right'>
-            Agregar
-          </button>
-        )}
+        <button type='submit' className='btn btn-primary float-right'>
+          Agregar
+        </button>
       </form>
     </div>
   );
