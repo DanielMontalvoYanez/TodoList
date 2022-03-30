@@ -3,8 +3,8 @@ import Page500 from './Page500';
 import ExerciseNew from './ExerciseNew';
 import Loading from '../components/Loading';
 // import url from '../Config'
-import { getDatabase, ref, set } from 'firebase/database';
-
+import { ref, set } from 'firebase/database';
+import db from '../FireBaseConfig';
 const state = {
   form: {
     id: '',
@@ -62,8 +62,6 @@ const ExerciseContainer = ({ history }) => {
    */
   const sumbitHandle = async (data, e) => {
     e.preventDefault();
-    console.log('data: ', data);
-    const db = getDatabase();
     try {
       const { img, leftColor, rightColor, title, description } = data;
       setRecord({

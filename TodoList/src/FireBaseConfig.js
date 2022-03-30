@@ -4,7 +4,7 @@ import { getDatabase } from 'firebase/database';
 const firebaseConfig = {
   apiKey: 'AIzaSyBHEvthvesS3SaYd620LKQ3K1CtYi7FrcE',
   authDomain: 'danielmontalvotodolist.firebaseapp.com',
-  databaseURL: 'https://danielmontalvotodolist-default-rtdb.firebaseio.com',
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
   projectId: 'danielmontalvotodolist',
   storageBucket: 'danielmontalvotodolist.appspot.com',
   messagingSenderId: '118240754216',

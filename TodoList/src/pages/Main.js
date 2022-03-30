@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import Loading from '../components/Loading';
 import Page500 from './Page500';
 import url from '../Config';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 import db from '../FireBaseConfig';
 import buttonImg from '../imagenes/add.png';
 
@@ -25,17 +25,18 @@ const state = {
 const Main = () => {
   const [record, setRecord] = useState(state);
 
-  const ListExercises = async () => {
+  const ListenExercises = (callback) => {
     try {
-      const arr = [];
-      const starCountRef = await ref(db, 'todos');
-      onValue(starCountRef, (snapshot) => {
+      // const arr = [];
+      const TodosRef = ref(db, 'todos');
+      return onValue(TodosRef, (snapshot) => {
         const data = snapshot.val();
-        arr.push(data);
-        setRecord({
-          data: arr,
-          loading: false,
-        });
+        callback(data);
+        // arr.push(data);
+        // setRecord({
+        //   data: arr,
+        //   loading: false,
+        // });
       });
     } catch (error) {
       setRecord({
@@ -46,28 +47,16 @@ const Main = () => {
     }
   };
   useEffect(() => {
-    const getList = async () => {
-      await ListExercises();
-    };
-    getList();
+    let unsubscribe = ListenExercises((data) => {
+      let arr = [];
+      arr.push(data);
+      setRecord({
+        data: arr,
+        loading: false,
+      });
+    });
+    return () => unsubscribe && unsubscribe();
   }, []);
-  // fetchList = async () => {
-  //     try {
-  //         let res = await fetch(`${url}/exercises`);
-  //         let data = await res.json();
-  //         this.setState({
-  //             data: data,
-  //             loading: false
-  //         })
-  //         // console.log('res', data)
-  //     } catch (error) {
-  //         this.setState({
-  //             error: error,
-  //             loading: false
-  //         })
-  //     }
-
-  // }
 
   const handleChange = (e) => {
     this.setState({
